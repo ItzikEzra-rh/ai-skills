@@ -127,6 +127,24 @@ Also verify these concrete checks against your draft:
 
 4. **Length check:** Count non-blank lines. Must be 15-120. Target is 40-80.
 
+5. **Persona ownership check:** For each persona marked "Not affected," verify
+   the feature does not automate or replace a process they currently perform.
+   If it does, they need user stories — mark this as a review failure.
+
+6. **Persona-story alignment check:** For each user story, verify the
+   capability matches the persona's role definition. Infrastructure operations
+   under Cloud Provider Admin, or tenant management under Cloud Infrastructure
+   Admin, is a misattribution.
+
+7. **Problem Statement solution check:** The Problem Statement must not contain
+   sentences describing what the feature introduces or how it works. Search for
+   "introduces", "eliminates", "provides", "enables" used to describe the
+   feature itself (not the user pain). Any match is a failure.
+
+8. **Async status check:** If any In Scope item describes asynchronous resource
+   creation, verify that status/progress visibility is also addressed in In
+   Scope or User Stories.
+
 ## Verdict
 
 If all checks pass → proceed to Phase 5 (Output).
