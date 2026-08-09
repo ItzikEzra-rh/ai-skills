@@ -7,8 +7,19 @@ Before writing, determine:
 - **Which OSAC services** are affected (BMaaS, CaaS, VMaaS, MaaS, Enclave)?
 - **Which personas** are affected? If two have identical capabilities, combine
   them (e.g., `### Tenant Admin / Tenant User`).
+- **Persona ownership test:** Before marking any persona "Not affected," ask:
+  does this persona currently perform the manual process this feature automates
+  or replaces? If yes, they are a primary affected persona — write stories
+  about what changes for them. Example: if a feature replaces a static pool
+  maintained by Cloud Infrastructure Admins, CIA is a primary persona even if
+  the feature is "CaaS" scoped.
 - **What is the user pain?** State it from the user's perspective.
 - **What is the scope boundary?** What's in, what's explicitly out?
+- **Lifecycle decomposition:** For any resource, pool, or capacity being
+  introduced, enumerate all lifecycle operations a user can perform: create,
+  list/view, update/configure, scale up, scale down, delete. Each operation
+  that's in scope needs an In Scope bullet. A feature that creates resources
+  on-demand almost always implies scale-up/down and status visibility.
 - **What are the dependencies?** Other features that must land first.
 - **Dependency direction:** Does this feature enable something downstream, or
   depend on something upstream? A feature that exposes data does NOT depend
@@ -23,6 +34,11 @@ Follow the template structure. Use the section guidance from
 - Lead with user pain, not the system gap.
 - 2-4 sentences. If the problem is clear in 2, stop there.
 - State the cost of inaction.
+- **Pain only — no solutions.** The Problem Statement describes what's broken
+  and why it matters. Do NOT describe what the feature introduces, how it
+  works, or what the solution model is — that belongs in In Scope. A sentence
+  starting with "This feature introduces..." or "The X eliminates..." is a
+  solution description, not a problem statement.
 
 ### In Scope
 - Bullet list of user-observable capabilities.
@@ -31,11 +47,25 @@ Follow the template structure. Use the section guidance from
   boundary; "tenants can create volumes" duplicates a story).
 - If there is nothing beyond what user stories convey, keep to 2-4 bullets.
 - Describe at a high level — not detailed requirements.
+- **Status visibility:** For every resource or operation that is created or
+  modified asynchronously, verify that status tracking is addressed. Can the
+  user see the current state and any failure reasons? If a resource is
+  provisioned on-demand, progress and error visibility is an implied In Scope
+  requirement — don't omit it.
+- **Billing, metering, and cost management** are platform-wide concerns.
+  Default to Out of Scope unless billing IS the feature's primary purpose
+  or the Jira Definition of Done explicitly requires billing integration.
 
 ### Out of Scope
 - **Optional.** Only include what a reader would plausibly assume is included.
 - Each item must pass the **boundary proximity test**: would a reviewer ask
   "is this included?" If not, the item is too distant.
+- For features involving shared physical infrastructure (bare metal hosts,
+  GPUs, storage backends), explicitly address the tenant data boundary: what
+  happens to data and configuration between assignments? If host sanitization,
+  disk wipe, or credential rotation is not in scope for this feature, state it
+  as Out of Scope with the responsible service noted (e.g., "Host sanitization
+  between tenants — BMaaS responsibility").
 
 ### User Stories
 - One story per distinct user goal. If a story has "and", split it.
@@ -98,6 +128,21 @@ tests:
 
 Each affected persona gets a `### {Persona}` heading with at least one user
 story. Unaffected personas get "Not affected by this feature." in one line.
+
+### Persona-Story Alignment Check
+
+After writing all user stories, verify each story's capability matches the
+persona's role:
+
+| Capability type | Correct persona |
+|----------------|-----------------|
+| Tenant onboarding, quotas, global catalogs, cross-tenant visibility | Cloud Provider Admin |
+| Infrastructure operations, hardware lifecycle, sanitization, network/storage backends | Cloud Infrastructure Admin |
+| Org config, org-scoped catalogs, IDP, org users | Tenant Admin |
+| Self-service provisioning, resource lifecycle, click-ops | Tenant User |
+
+A sanitization or hardware lifecycle story under Cloud Provider Admin is a
+misattribution — move it to Cloud Infrastructure Admin.
 
 ## Size Calibration
 

@@ -10,8 +10,6 @@
 
 OSAC CaaS tenants need block storage on their clusters, but there is no vendor-agnostic storage layer today. Without one, tenants would see vendor-specific StorageClasses and backend addresses, vendor credentials would be visible to tenants, there would be no enforcement point for per-tenant storage policy, and the platform would have no inventory of what volumes exist or which tenant owns them.
 
-The Storage Control Plane introduces a single storage driver that presents opaque storage tiers to tenants, enforces authorization and tier-access policies, keeps vendor credentials out of the tenant's view, and tracks every volume in a central inventory.
-
 ## In Scope
 
 1. **Storage driver for tenant clusters**: Handles PVC create, delete, and read (get/list) on tenant clusters through a standard Kubernetes PVC interface. StorageClasses are named after the tenant's configured storage tiers. v0.2 supports VAST as the only vendor backend for block storage.
