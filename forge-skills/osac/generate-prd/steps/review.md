@@ -141,9 +141,21 @@ Also verify these concrete checks against your draft:
    "introduces", "eliminates", "provides", "enables" used to describe the
    feature itself (not the user pain). Any match is a failure.
 
-8. **Async status check:** If any In Scope item describes asynchronous resource
-   creation, verify that status/progress visibility is also addressed in In
-   Scope or User Stories.
+8. **Async status check:** Scan In Scope for ANY of these async triggers:
+   provisioning, deployment, creation of ComputeInstance, ClusterOrder,
+   BareMetalInstance, storage volumes, CSI driver, GPU passthrough, or any
+   phrase like "automatically available", "on-demand", "when ready". If ANY
+   trigger is found, verify that BOTH conditions are met:
+   (a) In Scope includes a status/progress visibility bullet, AND
+   (b) User Stories includes a story about seeing current state and failure
+   reasons. Missing either is a failure.
+
+9. **Jira completeness check:** Re-read the original Jira input. For each
+   concrete requirement, acceptance criterion, or capability mentioned in
+   the Jira description, verify it appears somewhere in the PRD (In Scope,
+   User Stories, or Out of Scope with justification). List any Jira
+   requirements that are not covered. Missing a Jira requirement is a
+   failure unless it's clearly out of scope with justification.
 
 ## Verdict
 

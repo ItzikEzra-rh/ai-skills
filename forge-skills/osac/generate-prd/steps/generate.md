@@ -20,6 +20,15 @@ Before writing, determine:
   list/view, update/configure, scale up, scale down, delete. Each operation
   that's in scope needs an In Scope bullet. A feature that creates resources
   on-demand almost always implies scale-up/down and status visibility.
+- **Async status visibility (mandatory check):** If ANY resource in the
+  feature is created, provisioned, deployed, or modified asynchronously,
+  status/progress visibility is a REQUIRED In Scope item and MUST have a
+  user story. Ask: "Can the user see the current state and failure reasons?"
+  Resources that trigger async operations: ComputeInstance, ClusterOrder,
+  BareMetalInstance, storage volumes, CSI driver deployment, GPU passthrough
+  setup. If the feature creates or provisions any of these, add a user story:
+  "As a {persona}, I want to see the current status and any failure reasons
+  for {resource} so that I can track progress and troubleshoot issues."
 - **What are the dependencies?** Other features that must land first.
 - **Dependency direction:** Does this feature enable something downstream, or
   depend on something upstream? A feature that exposes data does NOT depend
