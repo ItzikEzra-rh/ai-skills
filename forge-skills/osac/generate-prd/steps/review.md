@@ -150,12 +150,27 @@ Also verify these concrete checks against your draft:
    (b) User Stories includes a story about seeing current state and failure
    reasons. Missing either is a failure.
 
-9. **Jira completeness check:** Re-read the original Jira input. For each
-   concrete requirement, acceptance criterion, or capability mentioned in
-   the Jira description, verify it appears somewhere in the PRD (In Scope,
-   User Stories, or Out of Scope with justification). List any Jira
-   requirements that are not covered. Missing a Jira requirement is a
-   failure unless it's clearly out of scope with justification.
+9. **Jira completeness check:** Re-read the original Jira input line by line.
+   For each concrete requirement, acceptance criterion, capability, or
+   explicit scope statement in the Jira description:
+   (a) Verify it appears somewhere in the PRD (In Scope, User Stories, or
+   Out of Scope with justification).
+   (b) If the Jira says something is out of scope or deferred, verify it
+   is in your Out of Scope section — not accidentally in In Scope.
+   List any gaps. Missing a Jira requirement is a failure.
+
+10. **Scope creep check:** For each In Scope bullet, verify it traces to
+    something in the Jira input. If an In Scope item was NOT mentioned in
+    the Jira ticket (description, acceptance criteria, or linked issues),
+    it is scope creep — remove it or move it to Out of Scope. Do NOT
+    invent capabilities the Jira does not request.
+
+11. **Persona separation check:** Verify that Tenant Admin and Tenant User
+    have SEPARATE headings in User Stories unless they have genuinely
+    identical capabilities in this feature. Same for Cloud Provider Admin
+    and Cloud Infrastructure Admin. If any two personas are combined under
+    one heading, verify that neither has ANY unique capability — if one
+    does, split them into separate headings.
 
 ## Verdict
 

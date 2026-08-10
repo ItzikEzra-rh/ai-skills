@@ -5,8 +5,11 @@
 Before writing, determine:
 
 - **Which OSAC services** are affected (BMaaS, CaaS, VMaaS, MaaS, Enclave)?
-- **Which personas** are affected? If two have identical capabilities, combine
-  them (e.g., `### Tenant Admin / Tenant User`).
+- **Which personas** are affected? Default to giving EACH persona its own
+  heading. Only combine two personas under one heading (e.g.,
+  `### Tenant Admin / Tenant User`) when they have genuinely identical
+  capabilities AND neither has any unique story. When in doubt, keep
+  separate — the gold standard almost always separates them.
 - **Persona ownership test:** Before marking any persona "Not affected," ask:
   does this persona currently perform the manual process this feature automates
   or replaces? If yes, they are a primary affected persona — write stories
@@ -51,6 +54,11 @@ Follow the template structure. Use the section guidance from
 
 ### In Scope
 - Bullet list of user-observable capabilities.
+- **No scope creep.** Every In Scope item must trace to the Jira input
+  (description, acceptance criteria, or linked issues). Do NOT add
+  capabilities the Jira ticket does not mention — even if they seem
+  logical. If the Jira says "CRUD for X", scope is CRUD for X, not
+  CRUD plus monitoring plus migration plus integration with Y.
 - Do NOT restate user stories. In Scope adds boundary information that stories
   alone wouldn't convey ("works for both new and existing clusters" is a
   boundary; "tenants can create volumes" duplicates a story).
@@ -69,6 +77,13 @@ Follow the template structure. Use the section guidance from
 - **Optional.** Only include what a reader would plausibly assume is included.
 - Each item must pass the **boundary proximity test**: would a reviewer ask
   "is this included?" If not, the item is too distant.
+- **Match the Jira source.** If the Jira ticket explicitly mentions something
+  as out of scope or deferred, include it here. If the Jira mentions a related
+  capability handled by a different ticket, that is an Out of Scope item with
+  the responsible ticket noted.
+- **Do NOT invert scope.** If the Jira ticket says something is in scope, do
+  not move it to Out of Scope. If the Jira says something is deferred or out
+  of scope, do not move it to In Scope. When unsure, check the Jira wording.
 - For features involving shared physical infrastructure (bare metal hosts,
   GPUs, storage backends), explicitly address the tenant data boundary: what
   happens to data and configuration between assignments? If host sanitization,
