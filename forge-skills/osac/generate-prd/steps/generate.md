@@ -37,6 +37,37 @@ Before writing, determine:
   depend on something upstream? A feature that exposes data does NOT depend
   on the downstream consumer — the consumer depends on it.
 
+## Step 1.5: Extract Requirements from Jira (MANDATORY)
+
+**You MUST complete this step before Step 2. Write the file below BEFORE
+writing any PRD content. If you skip this step, the PRD will fail review.**
+
+Re-read the Jira Feature description line by line. Write a file called
+`/tmp/scope-contract.md` with exactly three sections:
+
+```
+## In Scope (from Jira)
+- [quote or paraphrase each capability the Jira explicitly requests]
+
+## Out of Scope (from Jira)
+- [quote anything the Jira explicitly defers or excludes]
+
+## Not Mentioned
+- Everything not listed above. Do NOT add these to the PRD.
+```
+
+Rules for the extraction:
+- Use the Jira's own words. Do not rephrase, expand, or infer.
+- Acceptance criteria items → In Scope
+- Demo steps → In Scope (the capability they demonstrate)
+- "Future work", "separate ticket", "out of scope" in Jira → Out of Scope
+- If the Jira does not mention something, it goes in "Not Mentioned"
+
+**In Step 2, every In Scope bullet in the PRD must come from the
+"In Scope (from Jira)" list above. Every Out of Scope bullet must come
+from the "Out of Scope (from Jira)" list. Adding items from "Not
+Mentioned" is a scope creep failure.**
+
 ## Step 2: Write the PRD
 
 Follow the template structure. Use the section guidance from

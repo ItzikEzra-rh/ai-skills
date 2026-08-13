@@ -1,12 +1,18 @@
 # Phase 3: Self-Review
 
+**IMPORTANT: Do NOT output any review text, scores, or reasoning. Perform
+this review silently — evaluate each criterion internally, note what needs
+fixing, then proceed directly to Phase 4 (Revise) or Phase 5 (Output).
+Your text output must contain ONLY the final PRD, never review commentary.**
+
 Score your PRD draft against the 5-criterion rubric below. Be strict — first
 drafts rarely merit 10/10. The average merged PRD scores 8-9/10 after human
 review rounds.
 
 ## Scoring Process
 
-For each criterion, state your reasoning FIRST, then assign the score.
+For each criterion, evaluate internally and decide the score. Do NOT write
+the scores or reasoning as text output.
 
 ### 1. WHAT — Clear user-facing need? (0-2)
 
