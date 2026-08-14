@@ -74,12 +74,37 @@ Map SQLSTATE → gRPC via the `translateError` function.
 ## Generation Rules
 
 1. **Every design decision traces to the PRD.** Mark unverified decisions `[Assumption]`.
-2. **Include proto schemas** for any feature adding or modifying API resources.
+2. **Include proto schemas** for any feature adding or modifying API resources. For UI-only features with no API changes, skip proto schemas entirely.
 3. **Describe all CRUD operations** with specific error codes and validation rules.
 4. **No hand-waving.** "Handle errors" → name the error codes. "Implement validation" → specify the rules.
 5. **Honest constraints.** Uncertain constraints are `[Assumption]`, not facts.
-6. **No scope creep.** Only design what the PRD requires.
+6. **No scope creep.** Only design what the PRD requires. See Scope Discipline below.
 7. **Resolution timing.** Prefer controller-time resolution (declarative) over API-time resolution. Store symbolic references in spec; resolve in controller.
+8. **Use OSAC personas in workflows.** Always name actors as: Cloud Provider Admin, Cloud Infrastructure Admin, Tenant Admin, or Tenant User — never generic "Admin" or "User".
+9. **Mark architectural uncertainty.** When the PRD doesn't specify which component to extend, mark the decision as `[Assumption]` and list an `[Open Question]`.
+
+## Scope Discipline
+
+The design must match the PRD's scope exactly. These are the most common scope violations — avoid them:
+
+- **Do NOT invent observability content** (Prometheus metrics, alerts, Grafana dashboards, structured log events) unless the PRD specifically lists monitoring as In Scope. If the template's "Observability and Monitoring" section doesn't apply, write: "No new observability changes. Existing monitoring mechanisms apply."
+- **Do NOT add feature flags**, administrative escape hatches, or force-delete mechanisms not in the PRD.
+- **Do NOT create new resource types** (CRDs, proto messages, database tables) not mentioned or implied by the PRD.
+- **Non-Goals must mirror the PRD's Out of Scope** items — translate them to design terms but do not add new ones or remove existing ones.
+- **If a template section doesn't apply**, write "N/A — [brief explanation]" rather than inventing content to fill it.
+- **Prefer extending existing components** over creating new ones. Reference the OSAC architecture context for existing patterns.
+
+## Failure Handling Guidance
+
+Always cover these OSAC-specific failure categories (when applicable to the feature):
+
+- **Controller reconciliation failures**: transient API errors with exponential backoff, stale cache reads, behavior when controller restarts mid-reconciliation
+- **Database-level failures**: Z0001 (immutable field violation), Z0002 (referential integrity), Z0003 (resource in use / delete protection)
+- **AAP integration failures** (if applicable): job launch failure (HTTP timeout), job execution failure (callback with error), partial provisioning (job succeeds partially)
+- **Race conditions**: resource deleted between validation and persistence, concurrent updates to the same resource
+- **Cross-component failures**: fulfillment-service unavailable during controller reconciliation, Keycloak token exchange failure
+
+For each failure mode, specify: what happens, how the system recovers, and what the user observes (error code, status condition, or UI state).
 
 ## Size Calibration
 
