@@ -8,7 +8,7 @@ Before writing, determine:
 - **Which personas** are affected? Default to giving EACH persona its own
   heading. Only combine two personas under one heading (e.g.,
   `### Tenant Admin / Tenant User`) when they have genuinely identical
-  capabilities AND neither has any unique story. When in doubt, keep
+  capabilities AND neither has any unique story. When in doubt, keep them
   separate — the gold standard almost always separates them.
 - **Persona ownership test:** Before marking any persona "Not affected," ask:
   does this persona currently perform the manual process this feature automates
