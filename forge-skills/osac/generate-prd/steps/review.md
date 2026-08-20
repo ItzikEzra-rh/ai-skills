@@ -1,12 +1,18 @@
 # Phase 3: Self-Review
 
+**IMPORTANT: Do NOT output any review text, scores, or reasoning. Perform
+this review silently — evaluate each criterion internally, note what needs
+fixing, then proceed directly to Phase 4 (Revise) or Phase 5 (Output).
+Your text output must contain ONLY the final PRD, never review commentary.**
+
 Score your PRD draft against the 5-criterion rubric below. Be strict — first
 drafts rarely merit 10/10. The average merged PRD scores 8-9/10 after human
 review rounds.
 
 ## Scoring Process
 
-For each criterion, state your reasoning FIRST, then assign the score.
+For each criterion, evaluate internally and decide the score. Do NOT write
+the scores or reasoning as text output.
 
 ### 1. WHAT — Clear user-facing need? (0-2)
 
@@ -141,9 +147,36 @@ Also verify these concrete checks against your draft:
    "introduces", "eliminates", "provides", "enables" used to describe the
    feature itself (not the user pain). Any match is a failure.
 
-8. **Async status check:** If any In Scope item describes asynchronous resource
-   creation, verify that status/progress visibility is also addressed in In
-   Scope or User Stories.
+8. **Async status check:** Scan In Scope for ANY of these async triggers:
+   provisioning, deployment, creation of ComputeInstance, ClusterOrder,
+   BareMetalInstance, storage volumes, CSI driver, GPU passthrough, or any
+   phrase like "automatically available", "on-demand", "when ready". If ANY
+   trigger is found, verify that BOTH conditions are met:
+   (a) In Scope includes a status/progress visibility bullet, AND
+   (b) User Stories includes a story about seeing current state and failure
+   reasons. Missing either is a failure.
+
+9. **Jira completeness check:** Re-read the original Jira input line by line.
+   For each concrete requirement, acceptance criterion, capability, or
+   explicit scope statement in the Jira description:
+   (a) Verify it appears somewhere in the PRD (In Scope, User Stories, or
+   Out of Scope with justification).
+   (b) If the Jira says something is out of scope or deferred, verify it
+   is in your Out of Scope section — not accidentally in In Scope.
+   List any gaps. Missing a Jira requirement is a failure.
+
+10. **Scope creep check:** For each In Scope bullet, verify it traces to
+    something in the Jira input. If an In Scope item was NOT mentioned in
+    the Jira ticket (description, acceptance criteria, or linked issues),
+    it is scope creep — remove it or move it to Out of Scope. Do NOT
+    invent capabilities the Jira does not request.
+
+11. **Persona separation check:** Verify that Tenant Admin and Tenant User
+    have SEPARATE headings in User Stories unless they have genuinely
+    identical capabilities in this feature. Same for Cloud Provider Admin
+    and Cloud Infrastructure Admin. If any two personas are combined under
+    one heading, verify that neither has ANY unique capability — if one
+    does, split them into separate headings.
 
 ## Verdict
 

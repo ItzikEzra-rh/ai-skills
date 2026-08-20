@@ -5,8 +5,11 @@
 Before writing, determine:
 
 - **Which OSAC services** are affected (BMaaS, CaaS, VMaaS, MaaS, Enclave)?
-- **Which personas** are affected? If two have identical capabilities, combine
-  them (e.g., `### Tenant Admin / Tenant User`).
+- **Which personas** are affected? Default to giving EACH persona its own
+  heading. Only combine two personas under one heading (e.g.,
+  `### Tenant Admin / Tenant User`) when they have genuinely identical
+  capabilities AND neither has any unique story. When in doubt, keep them
+  separate — the gold standard almost always separates them.
 - **Persona ownership test:** Before marking any persona "Not affected," ask:
   does this persona currently perform the manual process this feature automates
   or replaces? If yes, they are a primary affected persona — write stories
@@ -20,10 +23,50 @@ Before writing, determine:
   list/view, update/configure, scale up, scale down, delete. Each operation
   that's in scope needs an In Scope bullet. A feature that creates resources
   on-demand almost always implies scale-up/down and status visibility.
+- **Async status visibility (mandatory check):** If ANY resource in the
+  feature is created, provisioned, deployed, or modified asynchronously,
+  status/progress visibility is a REQUIRED In Scope item and MUST have a
+  user story. Ask: "Can the user see the current state and failure reasons?"
+  Resources that trigger async operations: ComputeInstance, ClusterOrder,
+  BareMetalInstance, storage volumes, CSI driver deployment, GPU passthrough
+  setup. If the feature creates or provisions any of these, add a user story:
+  "As a {persona}, I want to see the current status and any failure reasons
+  for {resource} so that I can track progress and troubleshoot issues."
 - **What are the dependencies?** Other features that must land first.
 - **Dependency direction:** Does this feature enable something downstream, or
   depend on something upstream? A feature that exposes data does NOT depend
   on the downstream consumer — the consumer depends on it.
+
+## Step 1.5: Extract Requirements from Jira (MANDATORY)
+
+**You MUST complete this step before Step 2. Write the file below BEFORE
+writing any PRD content. If you skip this step, the PRD will fail review.**
+
+Re-read the Jira Feature description line by line. Write a file called
+`/tmp/scope-contract.md` with exactly three sections:
+
+```
+## In Scope (from Jira)
+- [quote or paraphrase each capability the Jira explicitly requests]
+
+## Out of Scope (from Jira)
+- [quote anything the Jira explicitly defers or excludes]
+
+## Not Mentioned
+- Everything not listed above. Do NOT add these to the PRD.
+```
+
+Rules for the extraction:
+- Use the Jira's own words. Do not rephrase, expand, or infer.
+- Acceptance criteria items → In Scope
+- Demo steps → In Scope (the capability they demonstrate)
+- "Future work", "separate ticket", "out of scope" in Jira → Out of Scope
+- If the Jira does not mention something, it goes in "Not Mentioned"
+
+**In Step 2, every In Scope bullet in the PRD must come from the
+"In Scope (from Jira)" list above. Every Out of Scope bullet must come
+from the "Out of Scope (from Jira)" list. Adding items from "Not
+Mentioned" is a scope creep failure.**
 
 ## Step 2: Write the PRD
 
@@ -42,6 +85,11 @@ Follow the template structure. Use the section guidance from
 
 ### In Scope
 - Bullet list of user-observable capabilities.
+- **No scope creep.** Every In Scope item must trace to the Jira input
+  (description, acceptance criteria, or linked issues). Do NOT add
+  capabilities the Jira ticket does not mention — even if they seem
+  logical. If the Jira says "CRUD for X", scope is CRUD for X, not
+  CRUD plus monitoring plus migration plus integration with Y.
 - Do NOT restate user stories. In Scope adds boundary information that stories
   alone wouldn't convey ("works for both new and existing clusters" is a
   boundary; "tenants can create volumes" duplicates a story).
@@ -60,6 +108,13 @@ Follow the template structure. Use the section guidance from
 - **Optional.** Only include what a reader would plausibly assume is included.
 - Each item must pass the **boundary proximity test**: would a reviewer ask
   "is this included?" If not, the item is too distant.
+- **Match the Jira source.** If the Jira ticket explicitly mentions something
+  as out of scope or deferred, include it here. If the Jira mentions a related
+  capability handled by a different ticket, that is an Out of Scope item with
+  the responsible ticket noted.
+- **Do NOT invert scope.** If the Jira ticket says something is in scope, do
+  not move it to Out of Scope. If the Jira says something is deferred or out
+  of scope, do not move it to In Scope. When unsure, check the Jira wording.
 - For features involving shared physical infrastructure (bare metal hosts,
   GPUs, storage backends), explicitly address the tenant data boundary: what
   happens to data and configuration between assignments? If host sanitization,

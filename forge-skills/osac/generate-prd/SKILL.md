@@ -54,6 +54,9 @@ Read `skills/osac/generate-prd/steps/review.md` and follow its instructions
 to score your draft against the 5-criterion rubric (WHAT, WHY, User-Facing
 Focus, Right-Sized, Testability — each 0-2, total /10).
 
+**Perform this review silently — do NOT output scores, reasoning, or check
+results as text. Evaluate internally, then act on the results.**
+
 Also run these inline checks against your draft:
 
 1. **Section count:** Exactly 6 sections (Problem Statement, In Scope, Out of
