@@ -134,3 +134,12 @@ Use these markers:
 - [ ] Cross-repo changes enumerated (fulfillment-service, osac-operator, osac-aap)
 - [ ] Source markers present for PRD-derived and assumed decisions
 - [ ] Output length matches feature complexity (size calibration)
+
+## Evaluation
+
+This skill is evaluated against gold-standard merged design documents:
+
+- [`eval/eval.yaml`](eval/eval.yaml) — Forge eval harness config: invokes the skill with a Jira feature plus its approved PRD and scores the generated design against gold-standard merged designs.
+- [`eval/eval_forge_design.py`](eval/eval_forge_design.py) — standalone judge that scores any generated design against the OSAC quality criteria above (works on any `design.md`, no Forge required).
+
+Eval cases live under `eval/dataset/`. Re-run the harness to regenerate scores after changing the generation rules.
