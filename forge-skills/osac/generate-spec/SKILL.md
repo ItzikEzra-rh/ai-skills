@@ -20,6 +20,13 @@ logic, provisioning workflows. The PRD (WHAT/WHY) is your primary input.
 
 ## OSAC Architectural Patterns
 
+### Tenant Isolation (Mandatory)
+
+All new resources MUST include:
+- `osac.openshift.io/tenant` annotation for tenant scoping
+- `osac.openshift.io/owner-reference` annotation for resource hierarchy
+- OPA policies enforce isolation at runtime
+
 ### Standard Object Shape
 
 All fulfillment-service resources follow:
@@ -34,13 +41,6 @@ message {Resource} {
 - **Spec** = desired state (user-controlled)
 - **Status** = observed state (system-controlled, includes conditions)
 - **Conditions** preferred over phase enums for lifecycle state
-
-### Tenant Isolation (Mandatory)
-
-All new resources MUST include:
-- `osac.openshift.io/tenant` annotation for tenant scoping
-- `osac.openshift.io/owner-reference` annotation for resource hierarchy
-- OPA policies enforce isolation at runtime
 
 ### Controller Pattern
 
